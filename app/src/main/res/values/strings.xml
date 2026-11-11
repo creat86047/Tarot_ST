@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">塔羅高塔玩家報告</string>
+    <string name="app_subtitle">78張傳統塔羅 • 隨機正逆位 • 鎖定抽牌 • AI解牌導出</string>
+    <string name="start_reading">開始全新占卜</string>
+    <string name="browse_deck">檢視 78 張完整塔羅牌庫</string>
+    <string name="about_app">使用說明與 AI Prompt 簡介</string>
+
+    <!-- Setup -->
+    <string name="title_setup">占卜問題與牌陣設定</string>
+    <string name="label_question">請輸入您想探索的問題：</string>
+    <string name="hint_question">例如：近期事業突破點與高塔轉機為何？</string>
+    <string name="label_spread_preset">選擇預設牌陣或自訂：</string>
+    <string name="preset_single">單牌指引（1張）</string>
+    <string name="preset_timeline">三牌時間線（過去 / 現在 / 未來）</string>
+    <string name="preset_four_elements">四要素分析（風 / 火 / 水 / 土）</string>
+    <string name="preset_tower">高塔突破五牌陣（現狀 / 障礙 / 隱藏因素 / 突破點 / 未來）</string>
+    <string name="preset_custom">自訂牌陣數量與位置意涵</string>
+
+    <string name="label_positions_meaning">設置第一張～最後一張代表意涵：</string>
+    <string name="btn_start_draw">進入抽牌儀式</string>
+
+    <!-- Draw -->
+    <string name="title_draw">高塔抽牌儀式</string>
+    <string name="btn_shuffle">打亂牌庫與洗牌 (78張)</string>
+    <string name="btn_draw_card">抽取下一張牌</string>
+    <string name="status_locked">已鎖定卡牌</string>
+    <string name="btn_view_report">觀看玩家報告與匯出 AI Prompt</string>
+    <string name="reset_draw">重新洗牌與重新抽牌</string>
+
+    <!-- Report -->
+    <string name="title_report">塔羅高塔玩家報告</string>
+    <string name="btn_copy_ai_prompt">一鍵複製 AI 解牌 Prompt</string>
+    <string name="btn_share_report">分享/匯出文字報告</string>
+    <string name="btn_new_reading">完成並開始新占卜</string>
+    <string name="ai_prompt_notice">提示：複製 Prompt 後，可直接貼給 ChatGPT / Claude / DeepSeek 進行深度解牌。</string>
+</resources>

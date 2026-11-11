@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Tarot" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Mystic Dark theme colors -->
+        <item name="android:windowBackground">@color/tarot_bg_dark</item>
+        <item name="colorPrimary">@color/tarot_purple_primary</item>
+        <item name="colorSecondary">@color/tarot_gold_accent</item>
+        <item name="colorSurface">@color/tarot_surface</item>
+        <item name="android:textColorPrimary">@color/tarot_text_primary</item>
+        <item name="android:textColorSecondary">@color/tarot_text_secondary</item>
+        <item name="android:statusBarColor">@color/tarot_bg_dark</item>
+    </style>
+
+    <style name="Theme.Tarot" parent="Base.Theme.Tarot" />
+</resources>

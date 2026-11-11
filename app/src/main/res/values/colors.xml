@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Tarot Mystic Color Palette -->
+    <color name="tarot_bg_dark">#120E1E</color>
+    <color name="tarot_surface">#1E1833</color>
+    <color name="tarot_surface_variant">#2B2248</color>
+    <color name="tarot_purple_primary">#9D4EDD</color>
+    <color name="tarot_gold_accent">#E0AA3E</color>
+    <color name="tarot_gold_light">#F3D085</color>
+    <color name="tarot_text_primary">#F4F1F8</color>
+    <color name="tarot_text_secondary">#B0A8C0</color>
+    <color name="tarot_reversed_crimson">#E63946</color>
+    <color name="tarot_upright_green">#2A9D8F</color>
+    <color name="tarot_card_back">#251A40</color>
+    <color name="tarot_card_border">#5A3E85</color>
+</resources>

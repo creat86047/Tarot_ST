@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/tarot_bg_dark"
+    android:padding="16dp">
+
+    <!-- Header -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_setup"
+        android:textColor="@color/tarot_gold_accent"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="16dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Question Input -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_question"
+                android:textColor="@color/tarot_text_primary"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/hint_question"
+                android:textColorHint="@color/tarot_text_secondary"
+                android:textColor="@color/tarot_text_primary"
+                android:background="@color/tarot_surface"
+                android:padding="12dp"
+                android:textSize="15sp"
+                android:inputType="textMultiLine"
+                android:minLines="2" />
+
+            <!-- Spread Selection -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/label_spread_preset"
+                android:textColor="@color/tarot_text_primary"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinner_presets"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/tarot_surface"
+                android:popupBackground="@color/tarot_surface_variant"
+                android:padding="4dp" />
+
+            <!-- Custom Count Layout (Visible when Custom preset selected) -->
+            <LinearLayout
+                android:id="@+id/layout_custom_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="抽牌張數："
+                    android:textColor="@color/tarot_text_primary"
+                    android:textSize="14sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_minus_card"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:text="-"
+                    android:textSize="18sp"
+                    android:backgroundTint="@color/tarot_surface_variant" />
+
+                <TextView
+                    android:id="@+id/tv_card_count"
+                    android:layout_width="48dp"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:textColor="@color/tarot_gold_accent"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:gravity="center" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_plus_card"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:text="+"
+                    android:textSize="18sp"
+                    android:backgroundTint="@color/tarot_surface_variant" />
+            </LinearLayout>
+
+            <!-- Position Meanings Header -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/label_positions_meaning"
+                android:textColor="@color/tarot_gold_light"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_positions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:nestedScrollingEnabled="false" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Start Draw Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_confirm_setup"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/btn_start_draw"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/tarot_gold_accent" />
+
+</LinearLayout>

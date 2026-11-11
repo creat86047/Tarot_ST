@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/tarot_bg_dark"
+    android:padding="16dp">
+
+    <!-- Header -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_report"
+        android:textColor="@color/tarot_gold_accent"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="12dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Summary Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="14dp"
+                android:background="@color/tarot_surface"
+                android:elevation="3dp">
+
+                <TextView
+                    android:id="@+id/tv_report_question"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="占卜問題："
+                    android:textColor="@color/tarot_text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_report_stats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="牌陣：五牌陣 | 統計：正位 3 / 逆位 2 | 大牌 2 / 小牌 3"
+                    android:textColor="@color/tarot_gold_light"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- Cards RecyclerView -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="全牌陣抽牌鎖定記錄："
+                android:textColor="@color/tarot_text_primary"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_report_cards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:nestedScrollingEnabled="false" />
+
+            <!-- AI Prompt Preview Box -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="AI 解牌 Prompt (預覽與匯出區)："
+                android:textColor="@color/tarot_gold_accent"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/ai_prompt_notice"
+                android:textColor="@color/tarot_text_secondary"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/et_ai_prompt"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/tarot_surface_variant"
+                android:padding="12dp"
+                android:textColor="@color/tarot_text_primary"
+                android:textSize="12sp"
+                android:gravity="top|start"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:inputType="textMultiLine"
+                android:scrollbars="vertical" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Actions -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_copy_prompt"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="@string/btn_copy_ai_prompt"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/tarot_gold_accent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_share"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="@string/btn_share_report"
+                android:textColor="@color/tarot_text_primary"
+                android:textSize="13sp"
+                android:backgroundTint="@color/tarot_surface" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_new_reading"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="@string/btn_new_reading"
+                android:textColor="@color/tarot_text_primary"
+                android:textSize="13sp"
+                android:backgroundTint="@color/tarot_surface_variant" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
