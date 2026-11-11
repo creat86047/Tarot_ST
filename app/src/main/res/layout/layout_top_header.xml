@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_top_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingVertical="4dp"
+    android:layout_marginBottom="8dp">
+
+    <!-- Top Left: Golden Back Button -->
+    <ImageButton
+        android:id="@+id/btn_header_back"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="返回上一頁"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_back_gold" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1" />
+
+    <!-- Top Right Action Buttons: Golden Help (?) & Notebook -->
+    <ImageButton
+        android:id="@+id/btn_header_help"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="使用說明"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_help_gold" />
+
+    <ImageButton
+        android:id="@+id/btn_header_history"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="歷史記事本"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_notebook_gold" />
+
+</LinearLayout>

@@ -6,6 +6,9 @@
     android:padding="12dp"
     android:layout_marginBottom="12dp"
     android:background="@color/tarot_surface"
+    android:foreground="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
     android:elevation="3dp">
 
     <!-- Header: Position Title & Lock Status -->
@@ -20,7 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/sample_card_position"
+            android:text="第 1 張 • 現狀"
             android:textColor="@color/tarot_gold_accent"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -29,7 +32,7 @@
             android:id="@+id/tv_lock_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/card_locked"
+            android:text="🔒 已鎖定 (點擊看牌義)"
             android:textColor="@color/tarot_gold_light"
             android:textSize="12sp"
             android:paddingHorizontal="8dp"
@@ -43,62 +46,98 @@
         android:layout_marginVertical="8dp"
         android:background="@color/tarot_card_border" />
 
-    <!-- Card Name & Orientation -->
+    <!-- Main Card Row: Left Image/Frame + Right Info -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="top">
 
-        <TextView
-            android:id="@+id/tv_card_name"
+        <!-- Left: Card Thumbnail Image / Placeholder -->
+        <FrameLayout
+            android:layout_width="80dp"
+            android:layout_height="130dp"
+            android:background="@drawable/card_back_placeholder"
+            android:padding="3dp">
+
+            <ImageView
+                android:id="@+id/iv_card_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:contentDescription="卡牌圖檔"
+                android:src="@drawable/ic_launcher_foreground" />
+        </FrameLayout>
+
+        <!-- Right: Card Info -->
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/sample_card_name"
-            android:textColor="@color/tarot_text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginStart="12dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_orientation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/orientation_reversed"
-            android:textColor="@color/white"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="4dp"
-            android:background="@color/tarot_reversed_crimson" />
+            <!-- Card Name & Orientation -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_card_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="高塔 (The Tower)"
+                    android:textColor="@color/tarot_text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_orientation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="逆位"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="3dp"
+                    android:background="@color/tarot_reversed_crimson" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_arcana_suit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="大阿爾克那 • 主牌"
+                android:textColor="@color/tarot_text_secondary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_keywords"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="關鍵字：抗拒變革、緊抓殘局"
+                android:textColor="@color/tarot_gold_light"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="象徵崩解虛幻的結構，點擊可看完整牌義。"
+                android:textColor="@color/tarot_text_primary"
+                android:textSize="12sp"
+                android:maxLines="2"
+                android:ellipsize="end" />
+
+        </LinearLayout>
     </LinearLayout>
-
-    <!-- Details -->
-    <TextView
-        android:id="@+id/tv_arcana_suit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/sample_arcana_suit"
-        android:textColor="@color/tarot_text_secondary"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/tv_keywords"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:text="@string/sample_keywords"
-        android:textColor="@color/tarot_gold_light"
-        android:textSize="13sp" />
-
-    <TextView
-        android:id="@+id/tv_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/sample_card_description"
-        android:textColor="@color/tarot_text_primary"
-        android:textSize="13sp" />
 
 </LinearLayout>

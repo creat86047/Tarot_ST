@@ -10,7 +10,23 @@
         <item name="android:textColorPrimary">@color/tarot_text_primary</item>
         <item name="android:textColorSecondary">@color/tarot_text_secondary</item>
         <item name="android:statusBarColor">@color/tarot_bg_dark</item>
+
+        <!-- Dialog Styling -->
+        <item name="alertDialogTheme">@style/Theme.Tarot.Dialog</item>
+
+        <!-- Material Components styling -->
+        <item name="materialAlertDialogTheme">@style/Theme.Tarot.Dialog</item>
     </style>
 
     <style name="Theme.Tarot" parent="Base.Theme.Tarot" />
+
+    <!-- Custom Dark Purple Dialog Theme -->
+    <style name="Theme.Tarot.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:background">@color/tarot_surface</item>
+        <item name="colorSurface">@color/tarot_surface</item>
+        <item name="android:textColorPrimary">@color/tarot_text_primary</item>
+        <item name="android:textColorSecondary">@color/tarot_text_secondary</item>
+        <item name="colorAccent">@color/tarot_gold_accent</item>
+        <item name="colorPrimary">@color/tarot_gold_accent</item>
+    </style>
 </resources>

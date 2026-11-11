@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/tarot_bg_dark"
+    android:padding="16dp">
+
+    <!-- Universal Top Header Bar -->
+    <include layout="@layout/layout_top_header" />
+
+    <!-- Top Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="歷史占卜記事本"
+            android:textColor="@color/tarot_gold_accent"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_clear_all_history"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="清空紀錄"
+            android:textColor="@color/tarot_reversed_crimson"
+            android:textSize="12sp"
+            android:backgroundTint="@color/tarot_surface_variant" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="點擊歷史紀錄可開啟查看完整報告與複製 AI 解牌 Prompt"
+        android:textColor="@color/tarot_text_secondary"
+        android:textSize="12sp" />
+
+    <!-- RecyclerView for History -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_history"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:id="@+id/tv_empty_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="尚無歷史占卜紀錄，快去進行一次抽牌吧！"
+        android:textColor="@color/tarot_text_secondary"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_back_home_history"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        android:text="返回首頁"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/tarot_gold_accent" />
+
+</LinearLayout>

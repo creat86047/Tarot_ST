@@ -1,25 +1,19 @@
 package com.example.tarot.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TarotReading implements Parcelable {
+public class TarotReading implements Serializable {
     private String question;
     private String spreadName;
     private List<String> positionMeanings;
     private List<TarotCard> drawnCards;
     private long timestamp;
-
-    private TarotReading(Parcel in) {
-        question = in.readString();
-        spreadName = in.readString();
-        positionMeanings = in.createStringArrayList();
-        drawnCards = in.createTypedArrayList(TarotCard.CREATOR);
-        timestamp = in.readLong();
-    }
 
     public TarotReading(String question, String spreadName, List<String> positionMeanings) {
         this.question = question;
@@ -50,7 +44,7 @@ public class TarotReading implements Parcelable {
     }
 
     public void setPositionMeanings(List<String> positionMeanings) {
-        this.positionMeanings = positionMeanings != null ? positionMeanings : new ArrayList<>();
+        this.positionMeanings = positionMeanings;
     }
 
     public List<TarotCard> getDrawnCards() {
@@ -58,7 +52,7 @@ public class TarotReading implements Parcelable {
     }
 
     public void setDrawnCards(List<TarotCard> drawnCards) {
-        this.drawnCards = drawnCards != null ? drawnCards : new ArrayList<>();
+        this.drawnCards = drawnCards;
     }
 
     public void addDrawnCard(TarotCard card) {
@@ -76,36 +70,88 @@ public class TarotReading implements Parcelable {
         return timestamp;
     }
 
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public JSONObject toJSONObject() throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put("question", question);
+        json.put("spreadName", spreadName);
+        json.put("timestamp", timestamp);
+
+        JSONArray posArray = new JSONArray();
+        if (positionMeanings != null) {
+            for (String pos : positionMeanings) {
+                posArray.put(pos);
+            }
+        }
+        json.put("positionMeanings", posArray);
+
+        JSONArray cardArray = new JSONArray();
+        if (drawnCards != null) {
+            for (TarotCard card : drawnCards) {
+                cardArray.put(card.toJSONObject());
+            }
+        }
+        json.put("drawnCards", cardArray);
+
+        return json;
+    }
+
+    public static TarotReading fromJSONObject(JSONObject json) throws JSONException {
+        String question = json.getString("question");
+        String spreadName = json.getString("spreadName");
+
+        List<String> posList = new ArrayList<>();
+        JSONArray posArray = json.optJSONArray("positionMeanings");
+        if (posArray != null) {
+            for (int i = 0; i < posArray.length(); i++) {
+                posList.add(posArray.getString(i));
+            }
+        }
+
+        TarotReading reading = new TarotReading(question, spreadName, posList);
+        if (json.has("timestamp")) {
+            reading.setTimestamp(json.getLong("timestamp"));
+        }
+
+        List<TarotCard> cardList = new ArrayList<>();
+        JSONArray cardArray = json.optJSONArray("drawnCards");
+        if (cardArray != null) {
+            for (int i = 0; i < cardArray.length(); i++) {
+                cardList.add(TarotCard.fromJSONObject(cardArray.getJSONObject(i)));
+            }
+        }
+        reading.setDrawnCards(cardList);
+
+        return reading;
+    }
+
     /**
      * 產生高質量的 AI 解牌 Prompt (供 ChatGPT / Claude / Gemini / DeepSeek 等使用)
      */
     public String generateAIPrompt() {
-        List<TarotCard> cards = drawnCards != null ? drawnCards : new ArrayList<>();
-        List<String> positions = positionMeanings != null ? positionMeanings : new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         sb.append("你是一位經驗豐富、直覺敏銳且具備深厚象徵學底蘊的專業塔羅牌解牌大師。\n");
         sb.append("請針對以下「塔羅高塔玩家報告」的占卜紀錄進行深度且具體精準的解析與指引：\n\n");
         
-        sb.append("【占卜問題】：").append(question == null || question.trim().isEmpty()
-                ? "（未指定問題，請綜合當前能量狀態解析）" : question).append("\n");
-        sb.append("【牌陣類別】：").append(spreadName == null ? "未指定" : spreadName).append("\n\n");
+        sb.append("【占卜問題】：").append(question.trim().isEmpty() ? "（未指定問題，請綜合當前能量狀態解析）" : question).append("\n");
+        sb.append("【牌陣類別】：").append(spreadName).append("\n\n");
 
         sb.append("----------------------------------------\n");
         sb.append("【抽牌結果與位置象徵意涵】：\n");
 
-        for (int i = 0; i < cards.size(); i++) {
-            TarotCard card = cards.get(i);
-            if (card == null) {
-                continue;
-            }
-            String position = (i < positions.size()) ? positions.get(i) : ("位置 " + (i + 1));
+        for (int i = 0; i < drawnCards.size(); i++) {
+            TarotCard card = drawnCards.get(i);
+            String position = (i < positionMeanings.size()) ? positionMeanings.get(i) : ("位置 " + (i + 1));
             
             sb.append("\n▶ 第 ").append(i + 1).append(" 張牌 — 【").append(position).append("】\n");
             sb.append("   - 牌名：").append(card.getName()).append(" (").append(card.getEnglishName()).append(")\n");
             sb.append("   - 狀態：").append(card.getOrientationText()).append("\n");
             sb.append("   - 類別/元素：").append(card.getArcana()).append(" / ").append(card.getSuit()).append("\n");
             sb.append("   - 當前關鍵字：").append(card.getCurrentKeywords()).append("\n");
-            sb.append("   - 核心牌義：").append(card.getCurrentDescription()).append("\n");
+            sb.append("   - 核心牌義：").append(card.getDescription()).append("\n");
         }
 
         sb.append("\n----------------------------------------\n");
@@ -114,14 +160,11 @@ public class TarotReading implements Parcelable {
         int reversedCount = 0;
         int majorCount = 0;
         int minorCount = 0;
-        for (TarotCard card : cards) {
-            if (card == null) {
-                continue;
-            }
+        for (TarotCard card : drawnCards) {
             if (card.isReversed()) reversedCount++; else uprightCount++;
             if ("大阿爾克那".equals(card.getArcana())) majorCount++; else minorCount++;
         }
-        sb.append(" - 總抽牌數：").append(cards.size()).append(" 張\n");
+        sb.append(" - 總抽牌數：").append(drawnCards.size()).append(" 張\n");
         sb.append(" - 正位/逆位比例：正位 ").append(uprightCount).append(" 張 / 逆位 ").append(reversedCount).append(" 張\n");
         sb.append(" - 大牌/小牌比例：大阿爾克那 ").append(majorCount).append(" 張 / 小阿爾克那 ").append(minorCount).append(" 張\n\n");
 
@@ -133,30 +176,4 @@ public class TarotReading implements Parcelable {
 
         return sb.toString();
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(question);
-        dest.writeString(spreadName);
-        dest.writeStringList(positionMeanings);
-        dest.writeTypedList(drawnCards);
-        dest.writeLong(timestamp);
-    }
-
-    public static final Creator<TarotReading> CREATOR = new Creator<TarotReading>() {
-        @Override
-        public TarotReading createFromParcel(Parcel in) {
-            return new TarotReading(in);
-        }
-
-        @Override
-        public TarotReading[] newArray(int size) {
-            return new TarotReading[size];
-        }
-    };
 }

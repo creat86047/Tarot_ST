@@ -7,11 +7,14 @@
     android:background="@color/tarot_bg_dark"
     android:padding="16dp">
 
+    <!-- Universal Top Header Bar -->
+    <include layout="@layout/layout_top_header" />
+
     <!-- Header -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/deck_browse_title"
+        android:text="78 張傳統塔羅牌庫"
         android:textColor="@color/tarot_gold_accent"
         android:textSize="22sp"
         android:textStyle="bold" />
@@ -20,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="@string/deck_browse_subtitle"
+        android:text="包含 22 張大阿爾克那與 56 張小阿爾克那（權杖/聖盃/寶劍/錢幣）"
         android:textColor="@color/tarot_text_secondary"
         android:textSize="12sp" />
 
@@ -37,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_marginTop="8dp"
-        android:text="@string/deck_back_home"
+        android:text="返回主選單"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"

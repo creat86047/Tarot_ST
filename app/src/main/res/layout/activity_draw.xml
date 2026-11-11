@@ -7,6 +7,9 @@
     android:background="@color/tarot_bg_dark"
     android:padding="16dp">
 
+    <!-- Universal Top Header Bar -->
+    <include layout="@layout/layout_top_header" />
+
     <!-- Header & Info -->
     <TextView
         android:layout_width="wrap_content"
@@ -21,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="@string/draw_question_placeholder"
+        android:text="問題：近期事業突破點"
         android:textColor="@color/tarot_text_secondary"
         android:textSize="13sp"
         android:ellipsize="end"
@@ -41,7 +44,7 @@
             android:id="@+id/tv_draw_prompt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/draw_prompt_placeholder"
+            android:text="請點擊下方「抽牌」按鈕，抽取 第 1 張牌【現狀】"
             android:textColor="@color/tarot_gold_light"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -51,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@string/deck_status_placeholder"
+            android:text="牌庫狀況：已混合 78 張牌（正逆位隨機）"
             android:textColor="@color/tarot_text_secondary"
             android:textSize="12sp" />
     </LinearLayout>
@@ -79,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="52dp"
             android:layout_marginStart="8dp"
-            android:text="@string/btn_shuffle_again"
+            android:text="重新洗牌"
             android:textColor="@color/tarot_text_primary"
             android:textSize="13sp"
             android:backgroundTint="@color/tarot_surface_variant" />

@@ -1,51 +1,47 @@
 package com.example.tarot;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.tarot.databinding.ActivityMainBinding;
+import com.google.android.material.button.MaterialButton;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
-    private ActivityMainBinding binding;
+    private static final String PREFS_NAME = "TarotPrefs";
+    private static final String KEY_FIRST_LAUNCH = "is_first_launch";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_main);
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        setupEdgeToEdgePadding(findViewById(R.id.main));
+        setupTopHeaderBar();
 
-        binding.btnStartReading.setOnClickListener(v -> {
+        MaterialButton btnStartReading = findViewById(R.id.btn_start_reading);
+        MaterialButton btnBrowseDeck = findViewById(R.id.btn_browse_deck);
+
+        btnStartReading.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SetupActivity.class);
             startActivity(intent);
         });
 
-        binding.btnBrowseDeck.setOnClickListener(v -> {
+        btnBrowseDeck.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, DeckBrowseActivity.class);
             startActivity(intent);
         });
 
-        binding.btnAbout.setOnClickListener(v -> showAboutDialog());
+        // 檢查是否為首次使用，如果是則自動彈窗顯示系統特色與說明
+        checkFirstLaunch();
     }
 
-    private void showAboutDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.about_dialog_title)
-                .setMessage(R.string.about_dialog_message)
-                .setPositiveButton(R.string.about_dismiss, (dialog, which) -> dialog.dismiss())
-                .show();
+    private void checkFirstLaunch() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        boolean isFirstLaunch = prefs.getBoolean(KEY_FIRST_LAUNCH, true);
+        if (isFirstLaunch) {
+            showAboutDialog();
+            prefs.edit().putBoolean(KEY_FIRST_LAUNCH, false).apply();
+        }
     }
 }

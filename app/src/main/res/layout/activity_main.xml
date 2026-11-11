@@ -13,20 +13,26 @@
         android:gravity="center_horizontal"
         android:padding="24dp">
 
+        <!-- Universal Top Header Bar -->
+        <include layout="@layout/layout_top_header" />
+
+        <!-- Cover Image (Profile Picture scaled to fill container with zero whitespace) -->
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="32dp"
-            android:contentDescription="Tarot Tower Logo"
-            android:src="@drawable/ic_launcher_foreground" />
+            android:id="@+id/iv_cover"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:layout_marginTop="12dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="Tarot Tower Cover"
+            android:src="@drawable/app_icon" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/app_name"
+            android:text="@string/main_title"
             android:textColor="@color/tarot_gold_accent"
-            android:textSize="26sp"
+            android:textSize="28sp"
             android:textStyle="bold"
             android:letterSpacing="0.05" />
 
@@ -65,44 +71,6 @@
             android:textColor="@color/tarot_text_primary"
             android:textSize="16sp"
             android:backgroundTint="@color/tarot_surface" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_about"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/about_app"
-            android:textColor="@color/tarot_text_secondary"
-            android:textSize="15sp"
-            android:backgroundTint="@color/tarot_surface_variant" />
-
-        <!-- Tower Feature Highlights Card -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:background="@color/tarot_surface"
-            android:elevation="4dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/main_feature_title"
-                android:textColor="@color/tarot_gold_light"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/main_feature_summary"
-                android:textColor="@color/tarot_text_secondary"
-                android:textSize="13sp"
-                android:lineSpacingExtra="4dp" />
-        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/tarot_surface"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Title & Orientation -->
+        <TextView
+            android:id="@+id/dialog_tv_card_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XVI. 高塔 (The Tower)"
+            android:textColor="@color/tarot_gold_accent"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/dialog_tv_orientation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="逆位 (Reversed)"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:background="@color/tarot_reversed_crimson" />
+
+        <TextView
+            android:id="@+id/dialog_tv_arcana_suit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="大阿爾克那 • 主牌"
+            android:textColor="@color/tarot_text_secondary"
+            android:textSize="13sp" />
+
+        <!-- Card Image Frame -->
+        <FrameLayout
+            android:layout_width="180dp"
+            android:layout_height="280dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/card_back_placeholder"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/dialog_iv_card_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:contentDescription="卡牌大圖" />
+        </FrameLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="12dp"
+            android:background="@color/tarot_card_border" />
+
+        <!-- Keywords -->
+        <TextView
+            android:id="@+id/dialog_tv_keywords"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="當前狀態關鍵字："
+            android:textColor="@color/tarot_gold_light"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- Full Description -->
+        <TextView
+            android:id="@+id/dialog_tv_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="這張牌通常代表的完整意涵與象徵意義..."
+            android:textColor="@color/tarot_text_primary"
+            android:textSize="14sp"
+            android:lineSpacingExtra="4dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/dialog_btn_close"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:text="關閉"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/tarot_gold_accent" />
+
+    </LinearLayout>
+</ScrollView>

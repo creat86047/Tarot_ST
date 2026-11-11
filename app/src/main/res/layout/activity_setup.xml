@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/tarot_bg_dark"
     android:padding="16dp">
+
+    <!-- Universal Top Header Bar -->
+    <include layout="@layout/layout_top_header" />
 
     <!-- Header -->
     <TextView
@@ -20,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:fillViewport="true">
 
         <LinearLayout
@@ -83,26 +87,34 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/custom_count_label"
+                    android:text="抽牌張數："
                     android:textColor="@color/tarot_text_primary"
-                    android:textSize="14sp" />
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_minus_card"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="12dp"
                     android:text="-"
-                    android:textSize="18sp"
+                    android:textColor="@color/tarot_gold_accent"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:padding="0dp"
+                    android:gravity="center"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="24dp"
                     android:backgroundTint="@color/tarot_surface_variant" />
 
                 <TextView
                     android:id="@+id/tv_card_count"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/custom_count_default"
+                    android:text="3"
                     android:textColor="@color/tarot_gold_accent"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:gravity="center" />
 
@@ -111,7 +123,14 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:text="+"
-                    android:textSize="18sp"
+                    android:textColor="@color/tarot_gold_accent"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:padding="0dp"
+                    android:gravity="center"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="24dp"
                     android:backgroundTint="@color/tarot_surface_variant" />
             </LinearLayout>
 
