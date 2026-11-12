@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="第 1 張 • 現狀"
+            android:text="@string/sample_card_position"
             android:textColor="@color/tarot_gold_accent"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -29,7 +29,7 @@
             android:id="@+id/tv_lock_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="🔒 已鎖定"
+            android:text="@string/card_locked"
             android:textColor="@color/tarot_gold_light"
             android:textSize="12sp"
             android:paddingHorizontal="8dp"
@@ -55,7 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="高塔 (The Tower)"
+            android:text="@string/sample_card_name"
             android:textColor="@color/tarot_text_primary"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -64,7 +64,7 @@
             android:id="@+id/tv_orientation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="逆位"
+            android:text="@string/orientation_reversed"
             android:textColor="@color/white"
             android:textSize="13sp"
             android:textStyle="bold"
@@ -79,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="大阿爾克那 • 主牌"
+        android:text="@string/sample_arcana_suit"
         android:textColor="@color/tarot_text_secondary"
         android:textSize="12sp" />
 
@@ -88,7 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:text="關鍵字：抗拒變革、緊抓殘局、延遲爆發"
+        android:text="@string/sample_keywords"
         android:textColor="@color/tarot_gold_light"
         android:textSize="13sp" />
 
@@ -97,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="象徵崩解虛幻的結構，雖然震撼卻是重獲新生的契機。"
+        android:text="@string/sample_card_description"
         android:textColor="@color/tarot_text_primary"
         android:textSize="13sp" />
 

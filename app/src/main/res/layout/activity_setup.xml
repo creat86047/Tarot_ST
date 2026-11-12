@@ -83,7 +83,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="抽牌張數："
+                    android:text="@string/custom_count_label"
                     android:textColor="@color/tarot_text_primary"
                     android:textSize="14sp" />
 
@@ -100,7 +100,7 @@
                     android:id="@+id/tv_card_count"
                     android:layout_width="48dp"
                     android:layout_height="wrap_content"
-                    android:text="3"
+                    android:text="@string/custom_count_default"
                     android:textColor="@color/tarot_gold_accent"
                     android:textSize="18sp"
                     android:textStyle="bold"

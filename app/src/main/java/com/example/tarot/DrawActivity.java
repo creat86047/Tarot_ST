@@ -2,149 +2,108 @@ package com.example.tarot;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tarot.data.TarotDeck;
+import com.example.tarot.databinding.ActivityDrawBinding;
 import com.example.tarot.model.TarotCard;
-import com.example.tarot.model.TarotReading;
-import com.google.android.material.button.MaterialButton;
+import com.example.tarot.viewmodel.ReadingSessionViewModel;
+import com.example.tarot.viewmodel.ReportViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DrawActivity extends AppCompatActivity {
 
-    private TextView tvDrawQuestion;
-    private TextView tvDrawPrompt;
-    private TextView tvDeckStatus;
-    private MaterialButton btnDrawCard;
-    private MaterialButton btnShuffleDeck;
-    private MaterialButton btnGoReport;
-    private RecyclerView rvDrawnCards;
-
+    private ActivityDrawBinding binding;
+    private ReadingSessionViewModel viewModel;
     private DrawnCardAdapter drawnCardAdapter;
-
-    private String question;
-    private String spreadName;
-    private List<String> positionMeanings;
-
-    private List<TarotCard> fullShuffledDeck;
-    private List<TarotCard> drawnCards;
-    private int currentDrawIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_draw);
+        binding = ActivityDrawBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        // Get Intent Extras
-        question = getIntent().getStringExtra("EXTRA_QUESTION");
-        spreadName = getIntent().getStringExtra("EXTRA_SPREAD_NAME");
-        positionMeanings = getIntent().getStringArrayListExtra("EXTRA_POSITIONS");
+        viewModel = new ViewModelProvider(this).get(ReadingSessionViewModel.class);
+        viewModel.initialize(
+                getIntent().getStringExtra(ReadingSessionViewModel.EXTRA_QUESTION),
+                getIntent().getStringExtra(ReadingSessionViewModel.EXTRA_SPREAD_NAME),
+                getIntent().getStringArrayListExtra(ReadingSessionViewModel.EXTRA_POSITIONS));
 
-        if (positionMeanings == null || positionMeanings.isEmpty()) {
-            positionMeanings = new ArrayList<>();
-            positionMeanings.add("當前指引");
-        }
+        binding.tvDrawQuestion.setText(getString(R.string.draw_question_format,
+                viewModel.getQuestion() == null ? "" : viewModel.getQuestion()));
+        drawnCardAdapter = new DrawnCardAdapter(
+                viewModel.getPositionMeanings(), viewModel.getDrawnCards());
+        binding.rvDrawnCards.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvDrawnCards.setAdapter(drawnCardAdapter);
 
-        drawnCards = new ArrayList<>();
-
-        // Views Initialization
-        tvDrawQuestion = findViewById(R.id.tv_draw_question);
-        tvDrawPrompt = findViewById(R.id.tv_draw_prompt);
-        tvDeckStatus = findViewById(R.id.tv_deck_status);
-        btnDrawCard = findViewById(R.id.btn_draw_card);
-        btnShuffleDeck = findViewById(R.id.btn_shuffle_deck);
-        btnGoReport = findViewById(R.id.btn_go_report);
-        rvDrawnCards = findViewById(R.id.rv_drawn_cards);
-
-        tvDrawQuestion.setText("問題：" + question);
-
-        // RecyclerView Setup
-        drawnCardAdapter = new DrawnCardAdapter(positionMeanings, drawnCards);
-        rvDrawnCards.setLayoutManager(new LinearLayoutManager(this));
-        rvDrawnCards.setAdapter(drawnCardAdapter);
-
-        // Initialize Shuffled 78 Deck
-        shuffleAndResetDeck();
-
-        // Button Listeners
-        btnDrawCard.setOnClickListener(v -> drawNextCard());
-
-        btnShuffleDeck.setOnClickListener(v -> {
-            shuffleAndResetDeck();
-            Toast.makeText(this, "已重新打亂 78 張牌庫與重置抽牌狀態！", Toast.LENGTH_SHORT).show();
+        binding.btnDrawCard.setOnClickListener(v -> drawNextCard());
+        binding.btnShuffleDeck.setOnClickListener(v -> {
+            viewModel.shuffle();
+            renderSession();
+            Toast.makeText(this, R.string.toast_deck_reshuffled, Toast.LENGTH_SHORT).show();
         });
+        binding.btnGoReport.setOnClickListener(v -> openReport());
 
-        btnGoReport.setOnClickListener(v -> {
-            if (drawnCards.size() < positionMeanings.size()) {
-                Toast.makeText(this, "請先抽完所有位置的卡牌！", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            TarotReading reading = new TarotReading(question, spreadName, positionMeanings);
-            reading.setDrawnCards(new ArrayList<>(drawnCards));
-
-            Intent intent = new Intent(DrawActivity.this, ReportActivity.class);
-            intent.putExtra("EXTRA_READING", reading);
-            startActivity(intent);
-        });
-    }
-
-    private void shuffleAndResetDeck() {
-        fullShuffledDeck = TarotDeck.createShuffledDeck(); // 78張牌亂序 + 隨機正逆位
-        drawnCards.clear();
-        currentDrawIndex = 0;
-
-        btnDrawCard.setEnabled(true);
-        btnGoReport.setEnabled(false);
-
-        updateUIStatus();
-        drawnCardAdapter.updateData(positionMeanings, drawnCards);
+        renderSession();
     }
 
     private void drawNextCard() {
-        if (currentDrawIndex >= positionMeanings.size()) {
-            Toast.makeText(this, "所有卡牌已抽完且已鎖定！", Toast.LENGTH_SHORT).show();
+        int currentIndex = viewModel.getCurrentDrawIndex();
+        if (currentIndex >= viewModel.getPositionMeanings().size()) {
+            Toast.makeText(this, R.string.toast_all_cards_drawn, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (fullShuffledDeck == null || fullShuffledDeck.isEmpty()) {
-            fullShuffledDeck = TarotDeck.createShuffledDeck();
+        TarotCard card = viewModel.drawNextCard();
+        if (card == null) {
+            Toast.makeText(this, R.string.toast_deck_empty, Toast.LENGTH_SHORT).show();
+            renderSession();
+            return;
         }
 
-        // Draw top card from shuffled deck
-        TarotCard card = fullShuffledDeck.remove(0);
-        drawnCards.add(card);
-
-        Toast.makeText(this, "第 " + (currentDrawIndex + 1) + " 張牌已抽出並【鎖定】：\n" + card.getDisplayName(), Toast.LENGTH_SHORT).show();
-
-        currentDrawIndex++;
-
-        drawnCardAdapter.updateData(positionMeanings, drawnCards);
-        rvDrawnCards.smoothScrollToPosition(currentDrawIndex - 1);
-
-        updateUIStatus();
+        int nextIndex = viewModel.getCurrentDrawIndex();
+        Toast.makeText(this, getString(R.string.toast_card_drawn_format,
+                nextIndex, card.getDisplayName()), Toast.LENGTH_SHORT).show();
+        renderSession();
+        binding.rvDrawnCards.smoothScrollToPosition(nextIndex - 1);
     }
 
-    private void updateUIStatus() {
-        tvDeckStatus.setText("牌庫剩餘：" + fullShuffledDeck.size() + " 張 / 78 張（正逆位已隨機打亂）");
+    private void renderSession() {
+        drawnCardAdapter.updateData(viewModel.getPositionMeanings(), viewModel.getDrawnCards());
+        binding.tvDeckStatus.setText(getString(R.string.deck_remaining_format,
+                viewModel.getRemainingCardCount()));
 
-        if (currentDrawIndex < positionMeanings.size()) {
-            String currentMeaning = positionMeanings.get(currentDrawIndex);
-            tvDrawPrompt.setText("請點擊下方「抽取卡牌」，抽取 第 " + (currentDrawIndex + 1) + " 張牌\n【" + currentMeaning + "】");
-            btnDrawCard.setEnabled(true);
-            btnGoReport.setEnabled(false);
+        ArrayList<String> positionMeanings = viewModel.getPositionMeanings();
+        int currentIndex = viewModel.getCurrentDrawIndex();
+        if (currentIndex < positionMeanings.size() && viewModel.getRemainingCardCount() == 0) {
+            binding.tvDrawPrompt.setText(R.string.draw_deck_empty);
+            binding.btnDrawCard.setEnabled(false);
+            binding.btnGoReport.setEnabled(false);
+        } else if (currentIndex < positionMeanings.size()) {
+            binding.tvDrawPrompt.setText(getString(R.string.draw_prompt_format,
+                    currentIndex + 1, positionMeanings.get(currentIndex)));
+            binding.btnDrawCard.setEnabled(true);
+            binding.btnGoReport.setEnabled(false);
         } else {
-            tvDrawPrompt.setText("🎉 全牌陣 " + positionMeanings.size() + " 張卡牌已全數抽完並即刻鎖定！");
-            btnDrawCard.setEnabled(false);
-            btnGoReport.setEnabled(true);
+            binding.tvDrawPrompt.setText(getString(R.string.draw_complete_format,
+                    positionMeanings.size()));
+            binding.btnDrawCard.setEnabled(false);
+            binding.btnGoReport.setEnabled(true);
         }
+    }
+
+    private void openReport() {
+        if (!viewModel.canOpenReport()) {
+            Toast.makeText(this, R.string.toast_need_all_cards, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent(this, ReportActivity.class);
+        intent.putExtra(ReportViewModel.EXTRA_READING, viewModel.createReading());
+        startActivity(intent);
     }
 }

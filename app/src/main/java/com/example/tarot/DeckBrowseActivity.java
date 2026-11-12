@@ -4,37 +4,22 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tarot.data.TarotDeck;
-import com.example.tarot.model.TarotCard;
-import com.google.android.material.button.MaterialButton;
-
-import java.util.List;
+import com.example.tarot.databinding.ActivityDeckBrowseBinding;
 
 public class DeckBrowseActivity extends AppCompatActivity {
+
+    private ActivityDeckBrowseBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_deck_browse);
+        binding = ActivityDeckBrowseBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        RecyclerView rvDeckCards = findViewById(R.id.rv_deck_cards);
-        MaterialButton btnBackHome = findViewById(R.id.btn_back_home);
-
-        List<TarotCard> allCards = TarotDeck.getAllCards();
-
-        // Create position meanings for library display
-        List<String> libraryTitles = new java.util.ArrayList<>(allCards.size());
-        for (int i = 0; i < allCards.size(); i++) {
-            TarotCard card = allCards.get(i);
-            libraryTitles.add(card.getArcana() + " • " + card.getSuit());
-        }
-
-        DrawnCardAdapter adapter = new DrawnCardAdapter(libraryTitles, allCards);
-        rvDeckCards.setLayoutManager(new LinearLayoutManager(this));
-        rvDeckCards.setAdapter(adapter);
-
-        btnBackHome.setOnClickListener(v -> finish());
+        binding.rvDeckCards.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvDeckCards.setAdapter(new DeckCardAdapter(TarotDeck.getAllCards()));
+        binding.btnBackHome.setOnClickListener(v -> finish());
     }
 }
