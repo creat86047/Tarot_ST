@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.tarot.data.TarotDeck;
 import com.example.tarot.databinding.ActivitySetupBinding;
+import com.example.tarot.viewmodel.ReadingSessionViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -157,9 +158,10 @@ public class SetupActivity extends AppCompatActivity {
         int selectedIndex = binding.spinnerPresets.getSelectedItemPosition();
         String spreadName = presets[selectedIndex];
         Intent intent = new Intent(this, DrawActivity.class);
-        intent.putExtra("EXTRA_QUESTION", question);
-        intent.putExtra("EXTRA_SPREAD_NAME", spreadName);
-        intent.putStringArrayListExtra("EXTRA_POSITIONS", new ArrayList<>(positionMeanings));
+        intent.putExtra(ReadingSessionViewModel.EXTRA_QUESTION, question);
+        intent.putExtra(ReadingSessionViewModel.EXTRA_SPREAD_NAME, spreadName);
+        intent.putStringArrayListExtra(ReadingSessionViewModel.EXTRA_POSITIONS,
+                new ArrayList<>(positionMeanings));
         startActivity(intent);
     }
 

@@ -4,27 +4,25 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.tarot.databinding.ActivityReportBinding;
 import com.example.tarot.model.TarotCard;
 import com.example.tarot.model.TarotReading;
+import com.example.tarot.viewmodel.ReportViewModel;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ReportActivity extends AppCompatActivity {
 
-    public static final String EXTRA_READING = "EXTRA_READING";
-    private static final String STATE_READING = "report.reading";
+    public static final String EXTRA_READING = ReportViewModel.EXTRA_READING;
 
     private ActivityReportBinding binding;
-    private TarotReading reading;
+    private ReportViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +30,8 @@ public class ReportActivity extends AppCompatActivity {
         binding = ActivityReportBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        reading = savedInstanceState != null
-                ? getParcelableReading(savedInstanceState, STATE_READING)
-                : getParcelableReading(getIntent());
-        if (reading == null && savedInstanceState != null) {
-            reading = getParcelableReading(getIntent());
-        }
+        viewModel = new ViewModelProvider(this).get(ReportViewModel.class);
+        viewModel.initialize(getParcelableReading(getIntent()));
 
         renderReading();
         binding.btnCopyPrompt.setOnClickListener(v -> copyPromptToClipboard());
@@ -55,18 +49,8 @@ public class ReportActivity extends AppCompatActivity {
         return intent.getParcelableExtra(EXTRA_READING);
     }
 
-    @SuppressWarnings("deprecation")
-    private TarotReading getParcelableReading(Bundle state, String key) {
-        return state.getParcelable(key);
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(STATE_READING, reading);
-    }
-
     private void renderReading() {
+        TarotReading reading = viewModel.getReading();
         if (reading == null) {
             binding.tvReportQuestion.setText(R.string.report_missing_reading);
             binding.tvReportStats.setText(R.string.report_no_stats);
@@ -81,29 +65,19 @@ public class ReportActivity extends AppCompatActivity {
                 ? getString(R.string.unspecified_question) : reading.getQuestion();
         binding.tvReportQuestion.setText(getString(R.string.report_question_format, question));
 
-        List<TarotCard> cards = reading.getDrawnCards() == null
-                ? Collections.emptyList() : reading.getDrawnCards();
-        int upright = 0;
-        int reversed = 0;
-        int major = 0;
-        int minor = 0;
-        for (TarotCard card : cards) {
-            if (card == null) {
-                continue;
-            }
-            if (card.isReversed()) reversed++; else upright++;
-            if ("大阿爾克那".equals(card.getArcana())) major++; else minor++;
-        }
+        List<TarotCard> cards = reading.getDrawnCards();
+        ReportViewModel.Summary summary = viewModel.getSummary();
 
         String spreadName = reading.getSpreadName() == null
                 ? getString(R.string.unspecified_spread) : reading.getSpreadName();
         binding.tvReportStats.setText(getString(R.string.report_stats_format,
-                spreadName, upright, reversed, major, minor));
+                spreadName, summary.getUprightCount(), summary.getReversedCount(),
+                summary.getMajorCount(), summary.getMinorCount()));
 
         DrawnCardAdapter adapter = new DrawnCardAdapter(reading.getPositionMeanings(), cards);
         binding.rvReportCards.setLayoutManager(new LinearLayoutManager(this));
         binding.rvReportCards.setAdapter(adapter);
-        binding.etAiPrompt.setText(reading.generateAIPrompt());
+        binding.etAiPrompt.setText(viewModel.generatePrompt());
     }
 
     private void copyPromptToClipboard() {
@@ -129,6 +103,7 @@ public class ReportActivity extends AppCompatActivity {
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
+        TarotReading reading = viewModel.getReading();
         String question = reading == null || reading.getQuestion() == null
                 ? getString(R.string.unspecified_question) : reading.getQuestion();
         shareIntent.putExtra(Intent.EXTRA_SUBJECT,
