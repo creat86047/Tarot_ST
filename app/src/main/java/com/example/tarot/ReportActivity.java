@@ -5,112 +5,135 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tarot.databinding.ActivityReportBinding;
 import com.example.tarot.model.TarotCard;
 import com.example.tarot.model.TarotReading;
-import com.google.android.material.button.MaterialButton;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ReportActivity extends AppCompatActivity {
 
-    private TextView tvReportQuestion;
-    private TextView tvReportStats;
-    private RecyclerView rvReportCards;
-    private EditText etAiPrompt;
+    public static final String EXTRA_READING = "EXTRA_READING";
+    private static final String STATE_READING = "report.reading";
 
+    private ActivityReportBinding binding;
     private TarotReading reading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report);
+        binding = ActivityReportBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        reading = (TarotReading) getIntent().getSerializableExtra("EXTRA_READING");
-
-        tvReportQuestion = findViewById(R.id.tv_report_question);
-        tvReportStats = findViewById(R.id.tv_report_stats);
-        rvReportCards = findViewById(R.id.rv_report_cards);
-        etAiPrompt = findViewById(R.id.et_ai_prompt);
-
-        MaterialButton btnCopyPrompt = findViewById(R.id.btn_copy_prompt);
-        MaterialButton btnShare = findViewById(R.id.btn_share);
-        MaterialButton btnNewReading = findViewById(R.id.btn_new_reading);
-
-        if (reading != null) {
-            tvReportQuestion.setText("占卜問題：" + reading.getQuestion());
-
-            // Compute statistics
-            List<TarotCard> cards = reading.getDrawnCards();
-            int upright = 0, reversed = 0, major = 0, minor = 0;
-            if (cards != null) {
-                for (TarotCard c : cards) {
-                    if (c.isReversed()) reversed++; else upright++;
-                    if ("大阿爾克那".equals(c.getArcana())) major++; else minor++;
-                }
-            }
-
-            String stats = "牌陣：" + reading.getSpreadName() +
-                    " | 統計：正位 " + upright + " 張 / 逆位 " + reversed + " 張" +
-                    " | 大牌 " + major + " 張 / 小牌 " + minor + " 張";
-            tvReportStats.setText(stats);
-
-            // RecyclerView Setup
-            DrawnCardAdapter adapter = new DrawnCardAdapter(reading.getPositionMeanings(), cards);
-            rvReportCards.setLayoutManager(new LinearLayoutManager(this));
-            rvReportCards.setAdapter(adapter);
-
-            // Generate AI Prompt text
-            String promptText = reading.generateAIPrompt();
-            etAiPrompt.setText(promptText);
+        reading = savedInstanceState != null
+                ? getParcelableReading(savedInstanceState, STATE_READING)
+                : getParcelableReading(getIntent());
+        if (reading == null && savedInstanceState != null) {
+            reading = getParcelableReading(getIntent());
         }
 
-        // Button Listeners
-        btnCopyPrompt.setOnClickListener(v -> copyPromptToClipboard());
-
-        btnShare.setOnClickListener(v -> shareReportText());
-
-        btnNewReading.setOnClickListener(v -> {
-            Intent intent = new Intent(ReportActivity.this, MainActivity.class);
+        renderReading();
+        binding.btnCopyPrompt.setOnClickListener(v -> copyPromptToClipboard());
+        binding.btnShare.setOnClickListener(v -> shareReportText());
+        binding.btnNewReading.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         });
     }
 
+    @SuppressWarnings("deprecation")
+    private TarotReading getParcelableReading(Intent intent) {
+        return intent.getParcelableExtra(EXTRA_READING);
+    }
+
+    @SuppressWarnings("deprecation")
+    private TarotReading getParcelableReading(Bundle state, String key) {
+        return state.getParcelable(key);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(STATE_READING, reading);
+    }
+
+    private void renderReading() {
+        if (reading == null) {
+            binding.tvReportQuestion.setText(R.string.report_missing_reading);
+            binding.tvReportStats.setText(R.string.report_no_stats);
+            binding.etAiPrompt.setText(R.string.report_missing_prompt);
+            binding.rvReportCards.setAdapter(null);
+            binding.btnCopyPrompt.setEnabled(false);
+            binding.btnShare.setEnabled(false);
+            return;
+        }
+
+        String question = reading.getQuestion() == null || reading.getQuestion().trim().isEmpty()
+                ? getString(R.string.unspecified_question) : reading.getQuestion();
+        binding.tvReportQuestion.setText(getString(R.string.report_question_format, question));
+
+        List<TarotCard> cards = reading.getDrawnCards() == null
+                ? Collections.emptyList() : reading.getDrawnCards();
+        int upright = 0;
+        int reversed = 0;
+        int major = 0;
+        int minor = 0;
+        for (TarotCard card : cards) {
+            if (card == null) {
+                continue;
+            }
+            if (card.isReversed()) reversed++; else upright++;
+            if ("大阿爾克那".equals(card.getArcana())) major++; else minor++;
+        }
+
+        String spreadName = reading.getSpreadName() == null
+                ? getString(R.string.unspecified_spread) : reading.getSpreadName();
+        binding.tvReportStats.setText(getString(R.string.report_stats_format,
+                spreadName, upright, reversed, major, minor));
+
+        DrawnCardAdapter adapter = new DrawnCardAdapter(reading.getPositionMeanings(), cards);
+        binding.rvReportCards.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvReportCards.setAdapter(adapter);
+        binding.etAiPrompt.setText(reading.generateAIPrompt());
+    }
+
     private void copyPromptToClipboard() {
-        String prompt = etAiPrompt.getText().toString();
+        String prompt = binding.etAiPrompt.getText().toString();
         if (prompt.isEmpty()) {
-            Toast.makeText(this, "無 Prompt 內容可複製", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_no_prompt_to_copy, Toast.LENGTH_SHORT).show();
             return;
         }
 
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("Tarot AI Prompt", prompt);
         if (clipboard != null) {
-            clipboard.setPrimaryClip(clip);
-            Toast.makeText(this, "已成功複製 AI 解牌 Prompt！可直接貼給 ChatGPT / Claude 解牌", Toast.LENGTH_LONG).show();
+            clipboard.setPrimaryClip(ClipData.newPlainText(getString(R.string.clip_label), prompt));
+            Toast.makeText(this, R.string.toast_prompt_copied, Toast.LENGTH_LONG).show();
         }
     }
 
     private void shareReportText() {
-        String prompt = etAiPrompt.getText().toString();
+        String prompt = binding.etAiPrompt.getText().toString();
         if (prompt.isEmpty()) {
-            Toast.makeText(this, "無報告內容可分享", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_no_report_to_share, Toast.LENGTH_SHORT).show();
             return;
         }
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "塔羅高塔玩家報告 - " + (reading != null ? reading.getQuestion() : "占卜結果"));
+        String question = reading == null || reading.getQuestion() == null
+                ? getString(R.string.unspecified_question) : reading.getQuestion();
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT,
+                getString(R.string.share_report_subject, question));
         shareIntent.putExtra(Intent.EXTRA_TEXT, prompt);
-        startActivity(Intent.createChooser(shareIntent, "分享塔羅玩家報告"));
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_report_chooser)));
     }
 }

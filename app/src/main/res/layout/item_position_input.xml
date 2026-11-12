@@ -13,7 +13,7 @@
         android:id="@+id/tv_position_label"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:text="位置 1"
+        android:text="@string/position_label_placeholder"
         android:textColor="@color/tarot_gold_accent"
         android:textSize="14sp"
         android:textStyle="bold" />
@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:hint="請輸入此位置代表的意涵"
+        android:hint="@string/position_meaning_hint"
         android:textColorHint="@color/tarot_text_secondary"
         android:textColor="@color/tarot_text_primary"
         android:textSize="14sp"
