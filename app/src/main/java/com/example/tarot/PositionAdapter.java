@@ -3,13 +3,12 @@ package com.example.tarot;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.tarot.databinding.ItemPositionInputBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,21 +38,22 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_position_input, parent, false);
-        return new ViewHolder(view);
+        ItemPositionInputBinding binding = ItemPositionInputBinding.inflate(
+                LayoutInflater.from(parent.getContext()), parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvPositionLabel.setText("位置 " + (position + 1));
+        holder.binding.tvPositionLabel.setText(
+                holder.binding.getRoot().getContext().getString(R.string.position_label_format, position + 1));
         
         // Remove existing text watcher to prevent recycled view bug
         if (holder.textWatcher != null) {
-            holder.etPositionMeaning.removeTextChangedListener(holder.textWatcher);
+            holder.binding.etPositionMeaning.removeTextChangedListener(holder.textWatcher);
         }
 
-        holder.etPositionMeaning.setText(positions.get(position));
+        holder.binding.etPositionMeaning.setText(positions.get(position));
 
         holder.textWatcher = new TextWatcher() {
             @Override
@@ -71,7 +71,7 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.ViewHo
             public void afterTextChanged(Editable s) {}
         };
 
-        holder.etPositionMeaning.addTextChangedListener(holder.textWatcher);
+        holder.binding.etPositionMeaning.addTextChangedListener(holder.textWatcher);
     }
 
     @Override
@@ -80,14 +80,12 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.ViewHo
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvPositionLabel;
-        EditText etPositionMeaning;
+        final ItemPositionInputBinding binding;
         TextWatcher textWatcher;
 
-        ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvPositionLabel = itemView.findViewById(R.id.tv_position_label);
-            etPositionMeaning = itemView.findViewById(R.id.et_position_meaning);
+        ViewHolder(@NonNull ItemPositionInputBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }

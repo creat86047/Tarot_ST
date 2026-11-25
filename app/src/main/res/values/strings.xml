@@ -34,4 +34,86 @@
     <string name="btn_share_report">分享/匯出文字報告</string>
     <string name="btn_new_reading">完成並開始新占卜</string>
     <string name="ai_prompt_notice">提示：複製 Prompt 後，可直接貼給 ChatGPT / Claude / DeepSeek 進行深度解牌。</string>
+
+    <!-- Dynamic UI copy -->
+    <string name="draw_question_format">問題：%1$s</string>
+    <string name="toast_deck_reshuffled">已重新打亂 78 張牌庫並重置抽牌狀態！</string>
+    <string name="toast_all_cards_drawn">所有卡牌已抽完並鎖定。</string>
+    <string name="toast_card_drawn_format">第 %1$d 張牌已抽出並鎖定：\n%2$s</string>
+    <string name="deck_remaining_format">牌庫剩餘：%1$d 張 / 78 張（正逆位已隨機打亂）</string>
+    <string name="draw_prompt_format">請點擊下方「抽取卡牌」，抽取第 %1$d 張牌\n【%2$s】</string>
+    <string name="draw_complete_format">🎉 全牌陣 %1$d 張卡牌已全數抽完並即刻鎖定！</string>
+    <string name="toast_need_all_cards">請先抽完所有位置的卡牌！</string>
+    <string name="toast_deck_empty">牌庫已沒有剩餘卡牌，無法繼續抽牌。</string>
+    <string name="draw_deck_empty">牌庫已無剩餘卡牌，請重新設定牌陣。</string>
+    <string name="default_position_meaning">當前指引</string>
+    <string name="position_label_format">位置 %1$d</string>
+    <string name="draw_card_position_format">第 %1$d 張 • 【%2$s】</string>
+    <string name="card_locked">🔒 已鎖定</string>
+    <string name="card_pending">⏳ 待抽取</string>
+    <string name="card_pending_name">卡牌尚在牌庫中，等待抽取…</string>
+    <string name="orientation_upright">正位 (Upright)</string>
+    <string name="orientation_reversed">逆位 (Reversed)</string>
+    <string name="card_keywords_format">關鍵字：%1$s</string>
+    <string name="toast_need_position">請至少設定一個抽牌位置！</string>
+
+    <string name="position_single">核心議題與當前指引</string>
+    <string name="position_timeline_past">過去起因與累積背景</string>
+    <string name="position_timeline_present">當前現狀與核心議題</string>
+    <string name="position_timeline_future">未來發展與潛在走向</string>
+    <string name="position_fire">火元素（行動／熱情／意志）</string>
+    <string name="position_water">水元素（情感／直覺／關係）</string>
+    <string name="position_air">風元素（理智／思考／溝通）</string>
+    <string name="position_earth">土元素（物質／現實／資源）</string>
+    <string name="position_tower_current">當前現狀與表面現象</string>
+    <string name="position_tower_obstacle">遭遇盲點與核心障礙</string>
+    <string name="position_tower_hidden">隱藏因素與轉化契機</string>
+    <string name="position_tower_breakthrough">高塔突破點（關鍵覺醒）</string>
+    <string name="position_tower_outlook">最終展望與學習成果</string>
+    <string name="position_custom_format">位置 %1$d 的代表意涵</string>
+
+    <string name="report_missing_reading">找不到這次的占卜紀錄</string>
+    <string name="report_no_stats">目前沒有可顯示的牌卡統計。</string>
+    <string name="report_missing_prompt">無法載入報告內容。請返回主選單並重新開始占卜。</string>
+    <string name="report_question_format">占卜問題：%1$s</string>
+    <string name="report_stats_format">牌陣：%1$s | 統計：正位 %2$d 張 / 逆位 %3$d 張 | 大牌 %4$d 張 / 小牌 %5$d 張</string>
+    <string name="unspecified_question">未指定問題</string>
+    <string name="unspecified_spread">未指定牌陣</string>
+    <string name="toast_no_prompt_to_copy">沒有可複製的 Prompt</string>
+    <string name="toast_prompt_copied">已複製 AI 解牌 Prompt，可直接貼給 ChatGPT / Claude 解牌。</string>
+    <string name="toast_no_report_to_share">沒有可分享的報告內容</string>
+    <string name="clip_label">塔羅 AI 解牌 Prompt</string>
+    <string name="share_report_subject">塔羅高塔玩家報告 - %1$s</string>
+    <string name="share_report_chooser">分享塔羅玩家報告</string>
+
+    <string name="deck_card_category_format">%1$s • %2$s</string>
+    <string name="deck_card_keywords_format">正位：%1$s\n逆位：%2$s</string>
+    <string name="deck_card_upright_description_format">正位牌義：%1$s</string>
+    <string name="deck_card_reversed_description_format">逆位牌義：%1$s</string>
+    <string name="about_dialog_title">塔羅高塔玩家報告 — 使用說明</string>
+    <string name="about_dialog_message">【系統核心功能與設計原則】：\n\n1. 78 張完整塔羅牌：包含 22 張大阿爾克那與 56 張小阿爾克那。\n\n2. 隨機正逆位與動態洗牌：每次抽牌前皆進行亂序混合，正逆位機率各半。\n\n3. 卡牌抽畢鎖定：每張牌抽出後即刻鎖定，不可人為更換，保留占卜當下的直覺。\n\n4. 多款經典牌陣：包含單牌、時間線、四要素、高塔突破陣，並支援自訂位置定義。\n\n5. AI 解牌 Prompt 匯出：完成抽牌後可生成 Prompt，一鍵複製給 ChatGPT、Claude 或 DeepSeek。\n\n6. 輕量離線與隱私：不需儲存占卜歷史，專注於當下解讀與文字報告。</string>
+    <string name="about_dismiss">瞭解</string>
+    <string name="custom_count_label">抽牌張數：</string>
+    <string name="deck_browse_title">78 張傳統塔羅牌庫</string>
+    <string name="deck_browse_subtitle">包含 22 張大阿爾克那與 56 張小阿爾克那（權杖／聖盃／寶劍／錢幣）</string>
+    <string name="deck_back_home">返回主選單</string>
+    <string name="main_feature_title">✨ 系統特色說明</string>
+    <string name="main_feature_summary">• 完整 78 張傳統塔羅牌（22 張大牌 + 56 張小牌）\n• 每次抽牌自動打亂 78 張牌庫，正逆位隨機\n• 抽完牌卡即刻鎖定，保留占卜的儀式感\n• 可自由設定各張牌的位置意涵\n• 一鍵生成 AI 解牌 Prompt，可匯出或複製給 AI 剖析</string>
+    <string name="draw_question_placeholder">問題：</string>
+    <string name="draw_prompt_placeholder">準備開始抽牌</string>
+    <string name="deck_status_placeholder">牌庫狀況：已混合 78 張牌（正逆位隨機）</string>
+    <string name="btn_shuffle_again">重新洗牌</string>
+    <string name="report_question_placeholder">占卜問題：</string>
+    <string name="report_stats_placeholder">占卜統計將顯示於此</string>
+    <string name="report_cards_heading">全牌陣抽牌鎖定記錄：</string>
+    <string name="report_prompt_heading">AI 解牌 Prompt（預覽與匯出區）：</string>
+    <string name="position_meaning_hint">請輸入此位置代表的意涵</string>
+    <string name="sample_card_position">第 1 張 • 現狀</string>
+    <string name="sample_card_name">塔羅牌</string>
+    <string name="sample_arcana_suit">大阿爾克那 • 主牌</string>
+    <string name="sample_keywords">關鍵字</string>
+    <string name="sample_card_description">牌義會顯示於此。</string>
+    <string name="custom_count_default">3</string>
+    <string name="position_label_placeholder">位置 1</string>
+
 </resources>

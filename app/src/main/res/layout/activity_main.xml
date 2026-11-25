@@ -89,7 +89,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="✨ 系統特色說明"
+                android:text="@string/main_feature_title"
                 android:textColor="@color/tarot_gold_light"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="• 完整 78 張傳統塔羅牌（22張大牌 + 56張小牌）\n• 每次抽牌自動打亂 78 張牌庫，正逆位隨機\n• 抽完牌卡即刻「鎖定」，保障占卜的儀式專一性\n• 可自由設置第1張~最後一張代表意涵\n• 一鍵生成高質量 AI 解牌 Prompt，可直接匯出與複製給 AI 剖析"
+                android:text="@string/main_feature_summary"
                 android:textColor="@color/tarot_text_secondary"
                 android:textSize="13sp"
                 android:lineSpacingExtra="4dp" />

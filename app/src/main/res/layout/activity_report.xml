@@ -41,7 +41,7 @@
                     android:id="@+id/tv_report_question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="占卜問題："
+                    android:text="@string/report_question_placeholder"
                     android:textColor="@color/tarot_text_primary"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="牌陣：五牌陣 | 統計：正位 3 / 逆位 2 | 大牌 2 / 小牌 3"
+                    android:text="@string/report_stats_placeholder"
                     android:textColor="@color/tarot_gold_light"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="全牌陣抽牌鎖定記錄："
+                android:text="@string/report_cards_heading"
                 android:textColor="@color/tarot_text_primary"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="AI 解牌 Prompt (預覽與匯出區)："
+                android:text="@string/report_prompt_heading"
                 android:textColor="@color/tarot_gold_accent"
                 android:textSize="15sp"
                 android:textStyle="bold" />
